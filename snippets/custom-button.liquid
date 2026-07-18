@@ -1,0 +1,83 @@
+{%- liquid
+  assign btn_text = text | default: 'Button'
+  assign btn_url = url | default: '#'
+  assign btn_bg = btn_bg_color | default: ''
+  assign btn_hover = btn_bg_hover_color | default: ''
+  assign btn_color = btn_text_color | default: ''
+  assign btn_hover_color = btn_hover_color | default: ''
+-%}
+
+<style>
+.btn {
+    position: relative;
+    padding: 12px 40px;
+    font-size: clamp(0.9rem, 1.9vw, 1rem);
+    font-weight: 400;
+    color: var(--btn-text-color);
+    background-color: var(--btn-bg);
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--btn-hover-bg);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .btn span {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items:center;
+    gap: 15px;
+    color: var(--btn-text-color);
+    transition: color 0.4s ease;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .btn:hover, .btn:hover span {
+    color: var(--btn-text-hover-color);
+  }
+
+  .btn span svg path{
+    fill: var(--btn-text-color);
+    transition: fill .4s ease;
+  }
+
+  .btn:hover span svg path{
+    fill: var(--btn-text-hover-color);
+  }
+</style>
+
+<a
+  href="{{ btn_url }}"
+  class="btn"
+  style="
+    --btn-bg: {{ btn_bg }};
+    --btn-hover-bg: {{ btn_hover }};
+    --btn-text: {{ btn_text_color }};
+    --btn-text-color: {{ btn_color }};
+    --btn-text-hover-color: {{ btn_hover_color }};
+  "
+>
+    <span>
+        {{ btn_text }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="12" viewBox="0 0 27 12" fill="none">
+            <path d="M0.75 4.77298C0.335786 4.77298 -3.62117e-08 5.10877 0 5.52298C3.62117e-08 5.93719 0.335786 6.27298 0.75 6.27298L0.75 4.77298ZM26.2803 6.05331C26.5732 5.76041 26.5732 5.28554 26.2803 4.99265L21.5074 0.219677C21.2145 -0.0732163 20.7396 -0.0732163 20.4467 0.219677C20.1538 0.512571 20.1538 0.987444 20.4467 1.28034L24.6893 5.52298L20.4467 9.76562C20.1538 10.0585 20.1538 10.5334 20.4467 10.8263C20.7396 11.1192 21.2145 11.1192 21.5074 10.8263L26.2803 6.05331ZM0.75 6.27298L25.75 6.27298L25.75 4.77298L0.75 4.77298L0.75 6.27298Z" fill=""/>
+        </svg>
+    </span>
+</a>
+
