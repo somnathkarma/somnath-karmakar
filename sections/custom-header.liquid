@@ -1,0 +1,251 @@
+<style>
+  .custom-header {
+    position: relative;
+    z-index: 100;
+    background-color: {{ section.settings.bg_color }};
+    height: 64px;
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 30px;
+  }
+
+  .header-left {
+    flex: 1;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .header-center {
+    flex: 2;
+    text-align: center;
+  }
+
+  .header-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .mobile-toggle {
+    display: none;
+    cursor: pointer;
+    z-index: 110;
+    width: 30px;
+    height: 21px;
+    position: absolute;
+    left: 20px;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    z-index: 105;
+    background-color: {{ section.settings.bg_color }};
+    border-top: 1px solid #eee;
+  }
+
+  .mobile-menu.open {
+    display: flex;
+  }
+
+  .mobile-menu-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .mobile-center-text {
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0 20px;
+  }
+
+  @media (max-width: 768px) {
+
+    .custom-container {
+        padding: 0px 16px;
+    }
+
+    .header-center, .header-right {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-left {
+      flex: 0 0 100%;
+      text-align: center;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    .mobile-toggle #on-state{
+        display: none;
+    }
+
+    .mobile-toggle #close-state{
+        display: block;
+    }
+
+    .mobile-toggle.open #on-state{
+        display: block;
+    }
+
+    .mobile-toggle.open #close-state{
+        display: none;
+    }
+
+  }
+</style>
+
+<header class="custom-header">
+  <div class="custom-container">
+    <!-- Mobile Hamburger Menu -->
+    <div class="mobile-toggle" id="MobileToggle">
+      <svg xmlns="http://www.w3.org/2000/svg" id="close-state" width="20" height="12" viewBox="0 0 20 12" fill="none">
+        <path d="M1 6H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1 1H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1 11H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" id="on-state" width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <path d="M1 13.9994L13.7279 1.2715" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1 1L13.7279 13.7279" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- Left Text Box -->
+    <div class="header-left">
+      {{ section.settings.left_text }}
+    </div>
+
+    <!-- Center Small Text -->
+    <div class="header-center">
+      {{ section.settings.center_text }}
+    </div>
+
+    <!-- Right Button -->
+    <div class="header-right">
+      {% render 'custom-button',
+        text: section.settings.button_label,
+        url: section.settings.button_link,
+        btn_bg_color: section.settings.btn_bg_color,
+        btn_bg_hover_color: section.settings.btn_bg_hover_color,
+        btn_text_color: section.settings.btn_text_color,
+        btn_hover_color: section.settings.btn_hover_color,
+      %}
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="mobile-menu" id="MobileMenu">
+    <div class="mobile-menu-content">
+      <p class="mobile-center-text">{{ section.settings.center_text }}</p>
+      {% render 'custom-button',
+        text: section.settings.button_label,
+        url: section.settings.button_link,
+        btn_bg_color: section.settings.btn_bg_color,
+        btn_bg_hover_color: section.settings.btn_bg_hover_color,
+        btn_text_color: section.settings.btn_text_color,
+        btn_hover_color: section.settings.btn_hover_color,
+      %}
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Custom Header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "left_text",
+      "label": "Left Text Box",
+      "default": "My Store"
+    },
+    {
+      "type": "textarea",
+      "id": "center_text",
+      "label": "Center Small Text",
+      "default": "Free shipping on all orders over $50"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background Color",
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_hover_color",
+      "label": "Button Hover Background Color",
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_color",
+      "label": "Button Text Hover Color",
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggle = document.getElementById('MobileToggle');
+    const menu = document.getElementById('MobileMenu');
+
+    if (toggle && menu) {
+      toggle.addEventListener('click', function () {
+        toggle.classList.toggle('open');
+        menu.classList.toggle('open');
+      });
+    }
+  });
+</script>
